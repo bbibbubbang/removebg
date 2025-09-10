@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+#drop-zone {
+    border: 2px dashed #ccc;
+    padding: 40px;
+    cursor: pointer;
+}
+
+#result {
+    margin-top: 20px;
+}
+
+#preview {
+    max-width: 100%;
+    height: auto;
+}
+#drop-zone.hover {
+    border-color: #000;
+}

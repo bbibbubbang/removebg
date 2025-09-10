@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Remover</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Background Remover</h1>
+    <div id="drop-zone">
+        <p>Drag & drop image here or click to select</p>
+        <input type="file" id="file-input" accept="image/*" hidden />
+    </div>
+    <button id="remove-btn">Remove Background</button>
+    <div id="result">
+        <img id="preview" alt="Preview" />
+        <a id="download-link" href="#" download="output.png">Download</a>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
