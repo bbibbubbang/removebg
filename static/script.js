@@ -1,5 +1,3 @@
-import { removeBackground } from './libs/background-removal/index.mjs';
-
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 const removeBtn = document.getElementById('remove-btn');
@@ -43,18 +41,22 @@ removeBtn.addEventListener('click', async () => {
         return;
     }
     try {
-        const blob = await removeBackground(selectedFile, {
-            publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/dist/"
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        const response = await fetch('/remove-bg', {
+            method: 'POST',
+            body: formData,
         });
+        if (!response.ok) {
+            throw new Error(`Server returned ${response.status}`);
+        }
+        const blob = await response.blob();
         const url = URL.createObjectURL(blob);
         preview.src = url;
         downloadLink.href = url;
     } catch (err) {
         console.error(err);
         const message = err?.message || err;
-        const cause = err?.cause;
-        const causeMsg = cause ? (cause.message || String(cause)) : '';
-        const fullMsg = `Error removing background: ${message}` + (causeMsg ? `\nCause: ${causeMsg}` : '');
-        alert(fullMsg);
+        alert(`Error removing background: ${message}`);
     }
 });
