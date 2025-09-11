@@ -1,9 +1,12 @@
+import { removeBackground } from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/dist/index.mjs';
+
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 const removeBtn = document.getElementById('remove-btn');
 const preview = document.getElementById('preview');
 const inputPreview = document.getElementById('input-preview');
 const downloadLink = document.getElementById('download-link');
+const CDN_PUBLIC_PATH = 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/dist/';
 let selectedFile = null;
 
 dropZone.addEventListener('click', () => fileInput.click());
@@ -40,18 +43,13 @@ removeBtn.addEventListener('click', async () => {
         alert('File too large. Max size is 10MB.');
         return;
     }
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    const response = await fetch('/remove-bg', {
-        method: 'POST',
-        body: formData
-    });
-    if (!response.ok) {
+    try {
+        const blob = await removeBackground(selectedFile, { publicPath: CDN_PUBLIC_PATH });
+        const url = URL.createObjectURL(blob);
+        preview.src = url;
+        downloadLink.href = url;
+    } catch (err) {
+        console.error(err);
         alert('Error removing background');
-        return;
     }
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    preview.src = url;
-    downloadLink.href = url;
 });
