@@ -8,9 +8,9 @@ you download the processed result.
 
 Open `index.html` directly in your browser (or host the repository with GitHub Pages).
 The page bundles the [`@imgly/background-removal`](https://www.npmjs.com/package/@imgly/background-removal)
-library and runs **entirely in the browser** – no network calls or local server are
-required. The supporting CSS and JavaScript live in the `static/` folder so the
-same files work when served from the optional FastAPI app.
+library and downloads its model data from Img.Ly's CDN at runtime. The supporting
+CSS and JavaScript live in the `static/` folder so the same files work when
+served from the optional FastAPI app.
 
 ## Running the API server (optional)
 
