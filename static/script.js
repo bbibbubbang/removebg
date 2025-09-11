@@ -51,6 +51,10 @@ removeBtn.addEventListener('click', async () => {
         downloadLink.href = url;
     } catch (err) {
         console.error(err);
-        alert('Error removing background');
+        const message = err?.message || err;
+        const cause = err?.cause;
+        const causeMsg = cause ? (cause.message || String(cause)) : '';
+        const fullMsg = `Error removing background: ${message}` + (causeMsg ? `\nCause: ${causeMsg}` : '');
+        alert(fullMsg);
     }
 });
