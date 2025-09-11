@@ -1,4 +1,4 @@
-import { removeBackground } from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/dist/index.mjs';
+import { removeBackground } from './libs/background-removal/index.mjs';
 
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
@@ -6,7 +6,8 @@ const removeBtn = document.getElementById('remove-btn');
 const preview = document.getElementById('preview');
 const inputPreview = document.getElementById('input-preview');
 const downloadLink = document.getElementById('download-link');
-const CDN_PUBLIC_PATH = 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/dist/';
+// Resolve the path to the local background-removal resources relative to this script
+const LOCAL_PUBLIC_PATH = new URL('./libs/background-removal/', import.meta.url).href;
 let selectedFile = null;
 
 dropZone.addEventListener('click', () => fileInput.click());
@@ -44,7 +45,7 @@ removeBtn.addEventListener('click', async () => {
         return;
     }
     try {
-        const blob = await removeBackground(selectedFile, { publicPath: CDN_PUBLIC_PATH });
+        const blob = await removeBackground(selectedFile, { publicPath: LOCAL_PUBLIC_PATH });
         const url = URL.createObjectURL(blob);
         preview.src = url;
         downloadLink.href = url;
