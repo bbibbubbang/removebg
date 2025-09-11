@@ -6,10 +6,11 @@ you download the processed result.
 
 ## Using the client-side demo
 
-Open `static/index.html` directly in your browser. The page uses the
-[`@imgly/background-removal`](https://www.npmjs.com/package/@imgly/background-removal)
+Open `index.html` directly in your browser (or host the repository with GitHub Pages).
+The page uses the [`@imgly/background-removal`](https://www.npmjs.com/package/@imgly/background-removal)
 library to remove backgrounds **entirely in the browser** – no local server is
-required.
+required. The supporting CSS and JavaScript live in the `static/` folder so the
+same files work when served from the bundled FastAPI app.
 
 ## Running the API server (optional)
 

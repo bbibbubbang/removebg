@@ -31,5 +31,6 @@ async def remove_bg(file: UploadFile = File(...)):
 
 @app.get("/")
 async def root():
-    with open("static/index.html", "r", encoding="utf-8") as f:
+    """Serve the client-side demo."""
+    with open("index.html", "r", encoding="utf-8") as f:
         return Response(content=f.read(), media_type="text/html")
