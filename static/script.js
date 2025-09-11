@@ -2,6 +2,7 @@ const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 const removeBtn = document.getElementById('remove-btn');
 const preview = document.getElementById('preview');
+const inputPreview = document.getElementById('input-preview');
 const downloadLink = document.getElementById('download-link');
 let selectedFile = null;
 
@@ -19,12 +20,14 @@ dropZone.addEventListener('drop', (e) => {
     dropZone.classList.remove('hover');
     if (e.dataTransfer.files.length) {
         selectedFile = e.dataTransfer.files[0];
+        inputPreview.src = URL.createObjectURL(selectedFile);
     }
 });
 
 fileInput.addEventListener('change', (e) => {
     if (e.target.files.length) {
         selectedFile = e.target.files[0];
+        inputPreview.src = URL.createObjectURL(selectedFile);
     }
 });
 
