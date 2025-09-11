@@ -44,7 +44,7 @@ removeBtn.addEventListener('click', async () => {
     }
     try {
         const blob = await removeBackground(selectedFile, {
-            publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal@latest/dist/"
+            publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/dist/"
         });
         const url = URL.createObjectURL(blob);
         preview.src = url;
