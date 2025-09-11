@@ -10,3 +10,6 @@ uvicorn app:app --reload
 ```
 
 Open `http://localhost:8000` in your browser to use the app.
+
+The API has CORS enabled, so the `/remove-bg` endpoint can be called from other
+web applications hosted on different origins.
