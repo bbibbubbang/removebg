@@ -43,7 +43,9 @@ removeBtn.addEventListener('click', async () => {
     try {
         const formData = new FormData();
         formData.append('file', selectedFile);
-        const response = await fetch('/remove-bg', {
+        // Use a relative URL so the request also works when the site is
+        // hosted under a subdirectory (e.g. on GitHub Pages).
+        const response = await fetch('remove-bg', {
             method: 'POST',
             body: formData,
         });
