@@ -25,7 +25,9 @@ async def remove_bg(file: UploadFile = File(...)):
     try:
         result = remove(contents)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        cause = f" (Cause: {e.__cause__})" if e.__cause__ else ""
+        message = f"{type(e).__name__}: {e}{cause}"
+        raise HTTPException(status_code=500, detail=message) from e
 
     return Response(content=result, media_type="image/png")
 
