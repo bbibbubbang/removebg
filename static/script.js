@@ -1,3 +1,5 @@
+import { removeBackground } from './libs/background-removal/index.mjs';
+
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 const removeBtn = document.getElementById('remove-btn');
@@ -41,18 +43,7 @@ removeBtn.addEventListener('click', async () => {
         return;
     }
     try {
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-        // Use a relative URL so the request also works when the site is
-        // hosted under a subdirectory (e.g. on GitHub Pages).
-        const response = await fetch('remove-bg', {
-            method: 'POST',
-            body: formData,
-        });
-        if (!response.ok) {
-            throw new Error(`Server returned ${response.status}`);
-        }
-        const blob = await response.blob();
+        const blob = await removeBackground(selectedFile);
         const url = URL.createObjectURL(blob);
         preview.src = url;
         downloadLink.href = url;

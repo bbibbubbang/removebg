@@ -1,20 +1,23 @@
 # Background Removal Web App
 
-A simple web application that removes the background from uploaded images using a
-FastAPI backend powered by the `rembg` library. Images can be uploaded via file
-selection or **drag-and-drop**. Files larger than **10 MB** are rejected. The interface
-shows a preview of the selected image and lets you download the processed result.
+A simple web application that removes the background from uploaded images.
+Images can be uploaded via file selection or **drag-and-drop**. Files larger
+than **10 MB** are rejected. The interface shows a preview of the selected image
+and lets you download the processed result.
 
-## Running the app
+By default, background removal happens directly in the browser using a
+WebAssembly model. This means the site can be hosted on static hosts such as
+GitHub Pages without any backend server.
 
-Install the dependencies and run the FastAPI app:
+## Running locally with FastAPI
+
+If you still want to run the old server-based variant, install the
+dependencies and start the FastAPI app:
 
 ```bash
 pip install -r requirements.txt
 uvicorn app:app --reload
 ```
 
-Then open `http://localhost:8000` in your browser.
-
-The static files live in the `static/` folder and call the `/remove-bg`
-endpoint to process images.
+Then open `http://localhost:8000` in your browser. The static files live in the
+`static/` folder.
