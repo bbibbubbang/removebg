@@ -1,4 +1,15 @@
-import { removeBackground } from './libs/background-removal/index.mjs';
+let removeBackground;
+async function getRemoveBackground() {
+    if (!removeBackground) {
+        try {
+            ({ removeBackground } = await import('./libs/background-removal/index.mjs'));
+        } catch (err) {
+            console.error('Failed to load background removal library:', err);
+            removeBackground = null;
+        }
+    }
+    return removeBackground;
+}
 
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
@@ -33,6 +44,17 @@ fileInput.addEventListener('change', (e) => {
     }
 });
 
+async function removeViaServer(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch('remove-bg', { method: 'POST', body: formData });
+    if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || 'Server error');
+    }
+    return await response.blob();
+}
+
 removeBtn.addEventListener('click', async () => {
     if (!selectedFile) {
         alert('Please select an image file.');
@@ -42,14 +64,23 @@ removeBtn.addEventListener('click', async () => {
         alert('File too large. Max size is 10MB.');
         return;
     }
+    let blob;
     try {
-        const blob = await removeBackground(selectedFile);
-        const url = URL.createObjectURL(blob);
-        preview.src = url;
-        downloadLink.href = url;
+        const remover = await getRemoveBackground();
+        if (!remover) throw new Error('Client-side library unavailable');
+        blob = await remover(selectedFile);
     } catch (err) {
         console.error(err);
-        const message = err?.message || err;
-        alert(`Error removing background: ${message}`);
+        try {
+            blob = await removeViaServer(selectedFile);
+        } catch (serverErr) {
+            console.error(serverErr);
+            const message = serverErr?.message || serverErr;
+            alert(`Error removing background: ${message}`);
+            return;
+        }
     }
+    const url = URL.createObjectURL(blob);
+    preview.src = url;
+    downloadLink.href = url;
 });
